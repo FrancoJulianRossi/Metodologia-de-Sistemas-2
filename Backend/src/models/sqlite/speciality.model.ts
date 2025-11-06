@@ -1,19 +1,23 @@
 const {Speciality} = require("./entities/speciality.entity.js");
 
-class SpecialityModel {
+export class SpecialityModel {
     getSpecialitiesModel() {
-        const specialities = Speciality.findAll();
-        return specialities;
+        return Speciality.findAll();
     }
-    getSpecialityByIdModel(id: number) {
-        return new Promise((resolve, reject) => {
-            const speciality = Speciality.findByPk(id);
-            if (!speciality) {
-                reject(new Error("Especialidad no encontrada"));
-            }
-            resolve(speciality);
-        });
+
+    async getSpecialityByIdModel(id: number) {
+        const speciality = await Speciality.findByPk(id);
+        if (!speciality) {
+            throw new Error("Especialidad no encontrada");
+        }
+        return speciality;
+    }
+
+    async getSpecialityByNameModel(name: string) {
+        const speciality = await Speciality.findOne({ where: { name } });
+        if (!speciality) {
+            throw new Error("Especialidad no encontrada");
+        }
+        return speciality;
     }
 }
-
-module.exports = new SpecialityModel();
