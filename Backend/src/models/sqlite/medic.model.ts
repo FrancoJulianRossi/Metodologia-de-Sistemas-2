@@ -6,7 +6,7 @@ class MedicModel {
             const newMedic = await Medic.create(medicData);
             return newMedic;
         } catch (error: any) {
-            throw new Error("Error creating medic: " + error.message);
+            throw new Error("Error al crear el médico: " + error.message);
         }
     }
 
@@ -15,7 +15,7 @@ class MedicModel {
             const medics = await Medic.findAll();
             return medics;
         } catch (error: any) {
-            throw new Error("Error getting medics: " + error.message);
+            throw new Error("Error al obtener los médicos: " + error.message);
         }
     }
 
@@ -23,11 +23,11 @@ class MedicModel {
         try {
             const medic = await Medic.findByPk(id);
             if (!medic) {
-                throw new Error("Medic not found");
+                throw new Error("Médico no encontrado");
             }
             return medic;
         } catch (error: any) {
-            throw new Error("Error getting medic: " + error.message);
+            throw new Error("Error al obtener el médico: " + error.message);
         }
     }
 
@@ -35,13 +35,13 @@ class MedicModel {
         try {
             const medic = await Medic.findByPk(id);
             if (!medic) {
-                throw new Error("Medic not found");
+                throw new Error("Médico no encontrado");
             }
             
             const updatedMedic = await medic.update(medicData);
             return updatedMedic;
         } catch (error: any) {
-            throw new Error("Error updating medic: " + error.message);
+            throw new Error("Error al actualizar el médico: " + error.message);
         }
     }
 
@@ -49,13 +49,13 @@ class MedicModel {
         try {
             const medic = await Medic.findByPk(id);
             if (!medic) {
-                throw new Error("Medic not found");
+                throw new Error("Médico no encontrado");
             }
             
             await medic.destroy();
             return true;
         } catch (error: any) {
-            throw new Error("Error deleting medic: " + error.message);
+            throw new Error("Error al eliminar el médico: " + error.message);
         }
     }
 
@@ -66,7 +66,7 @@ class MedicModel {
             });
             return medic;
         } catch (error: any) {
-            throw new Error("Error getting medic by email: " + error.message);
+            throw new Error("Error al obtener el médico por correo electrónico: " + error.message);
         }
     }
 
@@ -77,7 +77,7 @@ class MedicModel {
             });
             return medics;
         } catch (error: any) {
-            throw new Error("Error getting medics by specialty: " + error.message);
+            throw new Error("Error al obtener médicos por especialidad: " + error.message);
         }
     }
 }
