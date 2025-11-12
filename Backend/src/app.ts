@@ -16,6 +16,9 @@ export function makeApp() {
   const medicRoutes = require('./routes/medic.routes');
   app.use('/medics', medicRoutes);
 
+  const specialityRoutes = require('./routes/speciality.routes');
+  app.use('/specialities', specialityRoutes);
+
   app.use((err: any, _req: any, res: any, _next: any) => {
     console.error(err);
     res.status(500).json({ error: 'internal' });
