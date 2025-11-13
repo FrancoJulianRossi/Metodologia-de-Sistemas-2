@@ -19,8 +19,9 @@ export function makeApp() {
     })
   );
 
-  const appointmentRoutes = require("./routes/routes.appointment");
-  app.use("/appointments", appointmentRoutes);
+  const appointmentRoutes = require('./routes/appointment.routes');
+  app.use('/appointments', appointmentRoutes);
+
 
   const medicRoutes = require("./routes/medic.routes");
   app.use("/medics", medicRoutes);
