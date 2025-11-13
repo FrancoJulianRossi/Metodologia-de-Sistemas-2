@@ -13,7 +13,7 @@ export function makeApp() {
     })
   );
 
-  const appointmentRoutes = require('./routes/routes.appointment');
+  const appointmentRoutes = require('./routes/appointment.routes');
   app.use('/appointments', appointmentRoutes);
 
   const medicRoutes = require('./routes/medic.routes');
