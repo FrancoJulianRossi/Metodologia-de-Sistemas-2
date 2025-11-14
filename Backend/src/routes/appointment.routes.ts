@@ -1,10 +1,13 @@
 import express from "express";
-const appointmentController = require("../controllers/appointment.controller.js");
+const appointmentController = require("../controllers/appointment.controller");
 
 const router = express.Router();
-router.get("/", appointmentController.getAllAppointments.bind(appointmentController));
-router.get("/:id", appointmentController.getAppointmentById.bind(appointmentController));
-router.post("/", appointmentController.createAppointment.bind(appointmentController));
-router.put("/:id", appointmentController.updateAppointment.bind(appointmentController));
-router.delete("/:id", appointmentController.deleteAppointment.bind(appointmentController));
+
+// Use the controller methods as exported by the controller instance
+router.get("/", appointmentController.getAll);
+router.get("/:id", appointmentController.getById);
+router.post("/", appointmentController.create);
+router.put("/:id", appointmentController.update);
+router.delete("/:id", appointmentController.delete);
+
 module.exports = router;

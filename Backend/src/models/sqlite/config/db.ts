@@ -4,7 +4,15 @@ require("dotenv").config();
 
 const sequelize = new Sequelize({
   dialect: "sqlite",
-  storage: path.join(__dirname, "db", "clinica.sqlite"),
+  // place DB under src/models/sqlite/db/clinica.sqlite (so it is in source tree)
+  storage: path.join(
+    process.cwd(),
+    "src",
+    "models",
+    "sqlite",
+    "db",
+    "clinica.sqlite"
+  ),
   logging: false,
 });
 

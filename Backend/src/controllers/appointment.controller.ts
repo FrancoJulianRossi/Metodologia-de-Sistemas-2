@@ -145,4 +145,6 @@ class AppointmentController {
     }
   }
 }
-export default new AppointmentController();
+
+// Export as CommonJS instance to match how routes require controllers in this project
+module.exports = new AppointmentController();
