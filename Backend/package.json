@@ -3,17 +3,22 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build": "npx tsc --watch",
-    "dev": "node --watch ./dist/server.js"
+    "dev": "node --watch ./dist/server.js",
+    "seed": "npx tsc && node ./dist/scripts/seed.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "@types/node": "^24.9.1",
+    "jest": "^30.2.0",
     "sequelize-cli": "^6.6.3",
+    "ts-jest": "^29.4.5",
+    "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
   "dependencies": {
