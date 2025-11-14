@@ -1,14 +1,13 @@
 import express from "express";
 
-const specialityController = require("../controllers/speciality.controller.js");
+const specialityController = require("../controllers/speciality.controller");
 
 const router = express.Router();
 
-router.get("/", specialityController.getAllSpecialities.bind(specialityController));
-router.get("/:id", specialityController.getSpecialityById.bind(specialityController));
-router.post("/", specialityController.createSpeciality.bind(specialityController));
-router.put("/:id", specialityController.updateSpeciality.bind(specialityController));
-router.delete("/:id", specialityController.deleteSpeciality.bind(specialityController));
-
+router.get("/", specialityController.getAllSpecialities);
+router.get("/:id", specialityController.getSpecialityById);
+router.post("/", specialityController.createSpeciality);
+router.put("/:id", specialityController.updateSpeciality);
+router.delete("/:id", specialityController.deleteSpeciality);
 
 module.exports = router;
