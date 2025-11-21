@@ -33,10 +33,9 @@ export const medicService = {
     delete: (id: number) => axios.delete(`${API_URL}/${id}`),
 
     // Obtener médico por email
-    getByEmail: (email: string) =>
-        axios.get(`${API_URL}/email/${email}`),
+    getByEmail: (email: string) => axios.get(`${API_URL}/email/${email}`),
 
     // Obtener médicos por especialidad
     getBySpecialty: (specialtyId: number) =>
-        axios.get(`${API_URL}/specialty/${specialtyId}`)
+        axios.get(`${API_URL}/specialty/${specialtyId}`),
 };
