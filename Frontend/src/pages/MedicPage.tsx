@@ -1,7 +1,7 @@
 // src/pages/medicPage.tsx
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import NavBar from "../components/layouts/navBar";
 // Datos mock
 const MOCK_MEDICS = [
     { id: 1, name: "Juan", lastname: "Pérez", email: "juan.perez@mail.com", id_specialty: 101 },
@@ -25,9 +25,7 @@ export default function MedicPage() {
 
     return (
         <main className="p-6 w-full max-w-5xl mx-auto">
-            <div className="h-16 mb-4 bg-gray-100 flex items-center justify-center text-gray-500 text-sm rounded">
-                Navbar (se implementará cuando esté disponible)
-            </div>
+            <NavBar />
 
             <input
                 type="text"
