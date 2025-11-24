@@ -2,9 +2,12 @@ import express from "express";
 const appointmentController = require("../controllers/appointment.controller.js");
 
 const router = express.Router();
-router.get("/", appointmentController.getAllAppointments.bind(appointmentController));
-router.get("/:id", appointmentController.getAppointmentById.bind(appointmentController));
-router.post("/", appointmentController.createAppointment.bind(appointmentController));
-router.put("/:id", appointmentController.updateAppointment.bind(appointmentController));
-router.delete("/:id", appointmentController.deleteAppointment.bind(appointmentController));
+
+// usar los métodos existentes en la instancia y bindear por seguridad
+router.get("/", appointmentController.getAll.bind(appointmentController));
+router.get("/:id", appointmentController.getById.bind(appointmentController));
+router.post("/", appointmentController.create.bind(appointmentController));
+router.put("/:id", appointmentController.update.bind(appointmentController));
+router.delete("/:id", appointmentController.delete.bind(appointmentController));
+
 module.exports = router;
