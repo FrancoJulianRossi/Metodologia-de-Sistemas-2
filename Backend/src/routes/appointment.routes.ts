@@ -1,5 +1,5 @@
 import express from "express";
-const appointmentController = require("../controllers/appointment.controller.js");
+const appointmentController = require("../controllers/appointment.controller");
 
 const router = express.Router();
 
