@@ -1,0 +1,20 @@
+{
+  "development": {
+    "dialect": "sqlite",
+    "storage": "./database.sqlite"
+  },
+  "test": {
+    "username": "root",
+    "password": "password",
+    "database": "ClinicaDB_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "password",
+    "database": "ClinicaDB_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
