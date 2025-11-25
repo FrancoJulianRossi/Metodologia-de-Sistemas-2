@@ -6,7 +6,7 @@
     "test": "jest",
     "build": "npx tsc --watch",
     "dev": "node --watch ./dist/server.js",
-    "seed": "npx tsc && node ./dist/scripts/seed.js"
+    "seed": "npx tsc && node ./dist/scripts/seeds.js"
   },
   "keywords": [],
   "author": "",
