@@ -19,7 +19,7 @@ router.get("/:id", patientController.getById);
 
 // Get patient by DNI
 // GET /api/patients/dni?dni=xxxxx
-router.get("/dni", patientController.getByDni);
+router.get("/:dni", patientController.getByDni);
 
 // Update patient
 // PUT /api/patients/:id

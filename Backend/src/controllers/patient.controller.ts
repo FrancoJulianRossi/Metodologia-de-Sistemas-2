@@ -126,7 +126,7 @@ class PatientController {
 
   async getByDni(req: any, res: any) {
     try {
-      const { dni } = req.query;
+      const { dni } = req.params;
 
       if (!dni) {
         return res.status(400).json({
