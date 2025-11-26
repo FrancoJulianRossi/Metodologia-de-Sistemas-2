@@ -29,7 +29,7 @@ export const getPatientById = async (id: string) => {
 
 export const getPatientByDni = async (dni: string) => {
   try {
-    const response = await axios.get(`${API_URL}search`, { params: { dni } });
+    const response = await axios.get(`${API_URL}dni=${dni}`);
     if (response && response.data && response.data.data !== undefined) {
       return response.data.data;
     }
