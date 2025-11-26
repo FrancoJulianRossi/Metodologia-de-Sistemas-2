@@ -38,4 +38,8 @@ export const medicService = {
     // Obtener médicos por especialidad
     getBySpecialty: (specialtyId: number) =>
         axios.get(`${API_URL}/specialty/${specialtyId}`),
+
+    // Obtener médicos por nombre de especialidad
+    getBySpecialtyName: (specialtyName: string) =>
+        axios.get(`${API_URL}/specialty-name/${specialtyName}`),
 };

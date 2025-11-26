@@ -8,4 +8,4 @@ function App() {
   return <MedicPage />
 }
 
-export default App
+export default App;
