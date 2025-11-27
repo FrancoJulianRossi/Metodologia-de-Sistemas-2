@@ -1,41 +1,65 @@
-// src/services/medicService.ts
 import axios from "axios";
 
 const API_URL = "http://localhost:3000/medics";
 
+// Wrapper para mantener la consistencia con patientService (devuelve response.data.data cuando existe)
 export const medicService = {
-    // Obtener todos los médicos
-    getAll: () => axios.get(API_URL),
+    getAll: async () => {
+        const res = await axios.get(API_URL);
+        if (res && res.data && res.data.data !== undefined) return res.data.data;
+        return res.data;
+    },
 
-    // Obtener médico por ID
-    getById: (id: number) => axios.get(`${API_URL}/${id}`),
-
-    // Crear médico
-    create: (data: {
+    getById: async (id: number) => {
+        const res = await axios.get(`${API_URL}/${id}`);
+        if (res && res.data && res.data.data !== undefined) return res.data.data;
+        return res.data;
+    },
+    create: async (data: {
         name: string;
         lastname: string;
         email: string;
         id_specialty: number;
-    }) => axios.post(API_URL, data),
+    }) => {
+        const res = await axios.post(API_URL, data);
+        if (res && res.data && res.data.data !== undefined) return res.data.data;
+        return res.data;
+    },
 
-    // Actualizar médico
-    update: (
+    update: async (
         id: number,
         data: {
-            name: string;
-            lastname: string;
-            email: string;
-            id_specialty: number;
+            name?: string;
+            lastname?: string;
+            email?: string;
+            id_specialty?: number;
         }
-    ) => axios.put(`${API_URL}/${id}`, data),
+    ) => {
+        const res = await axios.put(`${API_URL}/${id}`, data);
+        if (res && res.data && res.data.data !== undefined) return res.data.data;
+        return res.data;
+    },
 
-    // Eliminar médico
-    delete: (id: number) => axios.delete(`${API_URL}/${id}`),
+    delete: async (id: number) => {
+        const res = await axios.delete(`${API_URL}/${id}`);
+        if (res && res.data && res.data.data !== undefined) return res.data.data;
+        return res.data;
+    },
+    getByEmail: async (email: string) => {
+        const res = await axios.get(`${API_URL}/email?email=${encodeURIComponent(email)}`);
+        if (res && res.data && res.data.data !== undefined) return res.data.data;
+        return res.data;
+    },
 
-    // Obtener médico por email
-    getByEmail: (email: string) => axios.get(`${API_URL}/email/${email}`),
+    getBySpecialty: async (specialtyId: number) => {
+        const res = await axios.get(`${API_URL}/specialty/${specialtyId}`);
+        if (res && res.data && res.data.data !== undefined) return res.data.data;
+        return res.data;
+    },
 
-    // Obtener médicos por especialidad
-    getBySpecialty: (specialtyId: number) =>
-        axios.get(`${API_URL}/specialty/${specialtyId}`),
+    getBySpecialtyName: async (specialtyName: string) => {
+        const res = await axios.get(`${API_URL}/specialty-name/${encodeURIComponent(specialtyName)}`);
+        if (res && res.data && res.data.data !== undefined) return res.data.data;
+        return res.data;
+    },
 };
