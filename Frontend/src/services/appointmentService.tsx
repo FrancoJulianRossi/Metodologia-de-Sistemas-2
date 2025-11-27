@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api/appointments';
+const API_URL = 'http://localhost:3000/appointments';
 
 export const getAllAppointments = async () => {
   const response = await fetch(API_URL);
