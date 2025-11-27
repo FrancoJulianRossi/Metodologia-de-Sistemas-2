@@ -1,5 +1,5 @@
-// Base URL for the appointments API endpoint
-const API_URL = 'http://localhost:3000/api/appointments';
+const API_URL = 'http://localhost:3000/appointments';
+
 
 // Fetches all appointments from the server
 export const getAllAppointments = async () => {

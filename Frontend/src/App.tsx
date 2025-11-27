@@ -1,15 +1,22 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
-import PatientPage from "./pages/patientPage";
+import React from 'react'
+import './App.css'
+import { Routes, Route, Navigate } from 'react-router-dom'
+import MedicPage from './pages/MedicPage'
+import AppointmentPage from './pages/appointmentPage'
+import PatientPage from './pages/patientPage'
 
 function App() {
   return (
     <>
-      <PatientPage />
+      <Routes>
+        <Route path="/" element={<Navigate to="/appointmentPage" replace />} />
+        <Route path="/medicPage" element={<MedicPage />} />
+        <Route path="/appointmentPage" element={<AppointmentPage />} />
+        <Route path="/patientPage" element={<PatientPage />} />
+        <Route path="*" element={<h2>404 — Página no encontrada</h2>} />
+      </Routes>
     </>
-  );
+  )
 }
 
 export default App;

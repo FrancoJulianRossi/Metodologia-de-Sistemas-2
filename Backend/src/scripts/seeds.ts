@@ -84,6 +84,20 @@ async function seed() {
       status: "cancelled",
       id_patient: patient2.id,
       id_medic: medic2.id,
+    }); 
+    await Appointment.create({
+      date: new Date("2025-01-12"),
+      time: "11:00",
+      status: "pending",
+      id_patient: patient1.id,
+      id_medic: medic2.id,
+    });
+    await Appointment.create({
+      date: new Date("2025-01-13"),
+      time: "16:00",
+      status: "confirmed",
+      id_patient: patient2.id,
+      id_medic: medic1.id,
     });
 
     console.log("Appointments created");
