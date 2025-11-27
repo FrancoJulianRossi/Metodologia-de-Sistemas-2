@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { getAllPatients } from "../services/patientService";
+import { medicService } from "../services/medicServices";
 
 type Props = {
     appointmentId?: string | number;
@@ -15,12 +17,14 @@ export function AppointmentForm(props: Props) {
     const id = appointmentId ?? idFromParams;
 
     const [form, setForm] = useState({
-        patientName: "",
-        doctorId: "",
+        patientId: "",
+        medicId: "",
         date: "",
         time: "",
         reason: "",
+        status: "pending", // agregado status por defecto
     });
+    const [patients, setPatients] = useState<{ id: string; name: string }[]>([]);
     const [doctors, setDoctors] = useState<{ id: string; name: string }[]>([]);
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
@@ -40,46 +44,70 @@ export function AppointmentForm(props: Props) {
         (async () => {
             try {
                 setLoading(true);
-                // cargar doctores
-                const data = await fetchJson("/api/doctors");
-                if (!mounted) return;
-                const normalized = Array.isArray(data)
-                    ? data.map((d: any) => {
-                          const id = String(d.id ?? d._id ?? d.id_medic ?? d.medic_id ?? "");
-                          const name =
-                              d.name ??
-                              d.fullName ??
-                              d.full_name ??
-                              ((d.firstName || d.first_name) ? `${d.firstName ?? d.first_name} ${d.lastName ?? d.last_name}`.trim() : "") ??
-                              id;
-                          return { id, name };
-                      })
-                    : [];
-                setDoctors(normalized);
+
+                // cargar pacientes desde service
+                try {
+                    const p = await getAllPatients();
+                    const normalizedPatients = Array.isArray(p)
+                        ? p.map((pt: any) => ({
+                              id: String(pt.id ?? pt._id ?? pt.id_patient ?? pt.patient_id ?? ""),
+                              name: pt.name ?? pt.fullName ?? pt.firstName ?? `${pt.name ?? ""} ${pt.lastname ?? ""}`.trim() ?? String(pt.id ?? pt._id ?? ""),
+                          }))
+                        : [];
+                    if (mounted) setPatients(normalizedPatients);
+                } catch (err) {
+                    console.error("Error cargando pacientes:", err);
+                    if (mounted) setPatients([]);
+                }
+
+                // cargar médicos desde medicService (axios)
+                try {
+                    const res = await medicService.getAll();
+                    const data = res?.data ?? [];
+                    const normalized = Array.isArray(data)
+                        ? data.map((d: any) => {
+                              const id = String(d.id ?? d._id ?? d.id_medic ?? d.medic_id ?? "");
+                              const name =
+                                  d.name ??
+                                  d.fullName ??
+                                  d.full_name ??
+                                  ((d.firstName || d.first_name) ? `${d.firstName ?? d.first_name} ${d.lastName ?? d.last_name}`.trim() : "") ??
+                                  id;
+                              return { id, name };
+                          })
+                        : [];
+                    if (mounted) setDoctors(normalized);
+                } catch (err) {
+                    console.error("Error cargando médicos:", err);
+                    if (mounted) setDoctors([]);
+                }
 
                 // si hay initialData usarlo, sino si viene id cargar appointment
                 if (initialData) {
                     const a = initialData;
                     setForm({
-                        patientName: a.patientName ?? a.patient_name ?? a.patient?.name ?? "",
-                        doctorId: String(a.doctorId ?? a.id_medic ?? a.medic_id ?? a.doctor?._id ?? a.doctor ?? ""),
+                        patientId: String(a.patientId ?? a.id_patient ?? a.patient?._id ?? a.patient ?? ""),
+                        medicId: String(a.medicId ?? a.id_medic ?? a.doctor?._id ?? a.doctor ?? ""),
                         date: a.date ?? a.appointmentDate ?? a.appointment_date ?? "",
                         time: a.time ?? a.appointmentTime ?? a.appointment_time ?? "",
                         reason: a.reason ?? a.description ?? a.notes ?? "",
+                        status: String(a.status ?? a.state ?? "pending"),
                     });
                 } else if (id) {
                     const ap = await fetchJson(`/api/appointments/${id}`);
                     if (!mounted) return;
                     setForm({
-                        patientName: ap.patientName ?? ap.patient_name ?? ap.patient?.name ?? "",
-                        doctorId: String(ap.doctorId ?? ap.id_medic ?? ap.medic_id ?? ap.doctor?._id ?? ap.doctor ?? ""),
+                        patientId: String(ap.patientId ?? ap.id_patient ?? ap.patient?._id ?? ap.patient ?? ""),
+                        medicId: String(ap.medicId ?? ap.id_medic ?? ap.doctor?._id ?? ap.doctor ?? ""),
                         date: ap.date ?? ap.appointmentDate ?? ap.appointment_date ?? "",
                         time: ap.time ?? ap.appointmentTime ?? ap.appointment_time ?? "",
                         reason: ap.reason ?? ap.description ?? ap.notes ?? "",
+                        status: String(ap.status ?? ap.state ?? "pending"),
                     });
                 } else {
-                    // si solo hay 1 doctor preseleccionar
-                    if (normalized.length === 1) setForm((s) => ({ ...s, doctorId: normalized[0].id }));
+                    // si solo hay 1 doctor/paciente preseleccionar
+                    if (doctors.length === 1) setForm((s) => ({ ...s, medicId: doctors[0].id }));
+                    if (patients.length === 1) setForm((s) => ({ ...s, patientId: patients[0].id }));
                 }
             } catch (err: any) {
                 console.error("AppointmentForm load error:", err);
@@ -101,8 +129,8 @@ export function AppointmentForm(props: Props) {
     async function handleSubmit(e?: React.FormEvent) {
         e?.preventDefault();
         setError(null);
-        if (!form.patientName.trim()) return setError("Nombre de paciente obligatorio");
-        if (!form.doctorId) return setError("Seleccione doctor");
+        if (!form.patientId) return setError("Seleccione paciente");
+        if (!form.medicId) return setError("Seleccione médico");
         if (!form.date) return setError("Seleccione fecha");
         if (!form.time) return setError("Seleccione hora");
 
@@ -110,16 +138,20 @@ export function AppointmentForm(props: Props) {
         try {
             const method = id ? "PUT" : "POST";
             const url = id ? `/api/appointments/${id}` : "/api/appointments";
+            const payload: any = {
+                id_patient: form.patientId,
+                id_medic: form.medicId,
+                date: form.date,
+                time: form.time,
+                reason: form.reason,
+            };
+            // enviar status si existe (necesario para edición)
+            if (form.status) payload.status = form.status;
+
             const res = await fetch(url, {
                 method,
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    patientName: form.patientName,
-                    doctorId: form.doctorId,
-                    date: form.date,
-                    time: form.time,
-                    reason: form.reason,
-                }),
+                body: JSON.stringify(payload),
             });
             if (!res.ok) {
                 const text = await res.text();
@@ -142,14 +174,21 @@ export function AppointmentForm(props: Props) {
             {error && <div className="alert alert-danger">{error}</div>}
 
             <div className="mb-2">
-                <label className="form-label">Nombre del paciente</label>
-                <input className="form-control" value={form.patientName} onChange={(e) => handleChange("patientName", e.target.value)} />
+                <label className="form-label">Paciente</label>
+                <select className="form-select" value={form.patientId} onChange={(e) => handleChange("patientId", e.target.value)}>
+                    <option value="">{patients.length ? "Seleccione paciente..." : "No hay pacientes"}</option>
+                    {patients.map((p) => (
+                        <option key={p.id} value={p.id}>
+                            {p.name}
+                        </option>
+                    ))}
+                </select>
             </div>
 
             <div className="mb-2">
                 <label className="form-label">Doctor</label>
-                <select className="form-select" value={form.doctorId} onChange={(e) => handleChange("doctorId", e.target.value)}>
-                    <option value="">{doctors.length ? "Seleccione..." : "No hay doctores"}</option>
+                <select className="form-select" value={form.medicId} onChange={(e) => handleChange("medicId", e.target.value)}>
+                    <option value="">{doctors.length ? "Seleccione doctor..." : "No hay doctores"}</option>
                     {doctors.map((d) => (
                         <option key={d.id} value={d.id}>
                             {d.name}
@@ -157,6 +196,18 @@ export function AppointmentForm(props: Props) {
                     ))}
                 </select>
             </div>
+
+            {/* Mostrar selector de estado solo en modo edición (cuando hay id) */}
+            {id && (
+                <div className="mb-2">
+                    <label className="form-label">Estado</label>
+                    <select className="form-select" value={form.status} onChange={(e) => handleChange("status", e.target.value)}>
+                        <option value="pending">Pending</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+            )}
 
             <div className="row">
                 <div className="col mb-2">
