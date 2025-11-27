@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getAllPatients } from "../services/patientService";
 import { medicService } from "../services/medicServices";
+import { createAppointment, updateAppointment, getAppointmentById } from "../services/appointmentService";
 
 type Props = {
   appointmentId?: string | number;
@@ -46,6 +47,15 @@ export function AppointmentForm(props: Props) {
   }
 
   useEffect(() => {
+    function toInputDate(d: any) {
+      if (!d && d !== 0) return "";
+      const date = new Date(d);
+      if (Number.isNaN(date.getTime())) return String(d).slice(0, 10) || "";
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${y}-${m}-${day}`;
+    }
     let mounted = true;
     (async () => {
       try {
@@ -121,13 +131,14 @@ export function AppointmentForm(props: Props) {
             medicId: String(
               a.medicId ?? a.id_medic ?? a.doctor?._id ?? a.doctor ?? ""
             ),
-            date: a.date ?? a.appointmentDate ?? a.appointment_date ?? "",
+            date: toInputDate(a.date ?? a.appointmentDate ?? a.appointment_date ?? ""),
             time: a.time ?? a.appointmentTime ?? a.appointment_time ?? "",
             reason: a.reason ?? a.description ?? a.notes ?? "",
             status: String(a.status ?? a.state ?? "pending"),
           });
         } else if (id) {
-          const ap = await fetchJson(`/api/appointments/${id}`);
+          // Use backend service (same base URL as appointmentService) to avoid mistaken /api path
+          const ap = await getAppointmentById(String(id));
           if (!mounted) return;
           setForm({
             patientId: String(
@@ -140,7 +151,7 @@ export function AppointmentForm(props: Props) {
             medicId: String(
               ap.medicId ?? ap.id_medic ?? ap.doctor?._id ?? ap.doctor ?? ""
             ),
-            date: ap.date ?? ap.appointmentDate ?? ap.appointment_date ?? "",
+            date: toInputDate(ap.date ?? ap.appointmentDate ?? ap.appointment_date ?? ""),
             time: ap.time ?? ap.appointmentTime ?? ap.appointment_time ?? "",
             reason: ap.reason ?? ap.description ?? ap.notes ?? "",
             status: String(ap.status ?? ap.state ?? "pending"),
@@ -182,8 +193,6 @@ export function AppointmentForm(props: Props) {
 
     setSubmitting(true);
     try {
-      const method = id ? "PUT" : "POST";
-      const url = id ? `/api/appointments/${id}` : "/api/appointments";
       const payload: any = {
         id_patient: form.patientId,
         id_medic: form.medicId,
@@ -191,17 +200,13 @@ export function AppointmentForm(props: Props) {
         time: form.time,
         reason: form.reason,
       };
-      // enviar status si existe (necesario para edición)
       if (form.status) payload.status = form.status;
 
-      const res = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || `HTTP ${res.status}`);
+      // use service which points to the actual backend URL
+      if (id) {
+        await updateAppointment(String(id), payload);
+      } else {
+        await createAppointment(payload);
       }
       onSaved?.();
       if (!onSaved && !onCancel) navigate("/appointments");
