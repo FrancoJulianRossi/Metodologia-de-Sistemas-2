@@ -1,6 +1,9 @@
+// Import the speciality model for database operations
 const specialityModel = require("../models/sqlite/speciality.model");
 
+// Controller class to handle speciality-related API requests
 class speacialityController {
+  // Retrieves all specialities from the database
   async getAllSpecialities(req: any, res: any) {
     try {
       const specialities = await specialityModel.getSpecialities();
@@ -16,6 +19,7 @@ class speacialityController {
     }
   }
 
+  // Retrieves a specific speciality by ID
   async getSpecialityById(req: any, res: any) {
     try {
       const id = parseInt(req.params.id);
@@ -32,6 +36,7 @@ class speacialityController {
     }
   }
 
+  // Creates a new speciality in the database
   async createSpeciality(req: any, res: any) {
     try {
       const specialityData = req.body;
@@ -46,6 +51,7 @@ class speacialityController {
     }
   }
 
+  // Updates an existing speciality with new data
   async updateSpeciality(req: any, res: any) {
     try {
       const id = parseInt(req.params.id);
@@ -64,6 +70,7 @@ class speacialityController {
     }
   }
 
+  // Deletes a speciality from the database by ID
   async deleteSpeciality(req: any, res: any) {
     try {
       const id = parseInt(req.params.id);
@@ -78,4 +85,5 @@ class speacialityController {
     }
   }
 }
+
 module.exports = new speacialityController();
