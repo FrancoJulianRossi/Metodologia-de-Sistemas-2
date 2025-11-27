@@ -4,6 +4,7 @@ import { Table, Spinner, Modal, Button } from "react-bootstrap";
 import { medicService } from "../services/medicServices";
 import Form from "react-bootstrap/Form";
 import NavBar from "../components/layouts/navBar";
+import Footer from "../components/layouts/footer";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -281,6 +282,7 @@ function MedicPage() {
                     </Modal.Footer>
                 </Modal>
             </Container>
+            <Footer />
         </>
     );
 }

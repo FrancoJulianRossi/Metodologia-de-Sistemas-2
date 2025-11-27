@@ -1,4 +1,5 @@
 const medicModel = require('../models/sqlite/medic.model');
+const { Speciality } = require('../models/sqlite/entities/speciality.entity.js');
 
 class MedicController {
     async createMedic(req: any, res: any) {
@@ -9,6 +10,26 @@ class MedicController {
                 return res.status(400).json({
                     message: 'Todos los campos son requeridos (name, lastname, email, id_specialty)'
                 });
+            }
+
+
+            try {
+                const existing = await medicModel.getByEmail(email);
+                if (existing) {
+                    return res.status(400).json({ message: 'Ya existe un médico con ese correo electrónico' });
+                }
+            } catch (e) {
+                console.error('[MedicController] error checking existing email', e);
+            }
+
+            try {
+                const spec = await Speciality.findByPk(id_specialty);
+                if (!spec) {
+                    return res.status(400).json({ message: 'Especialidad no encontrada' });
+                }
+            } catch (e) {
+                console.error('[MedicController] error checking speciality', e);
+                return res.status(500).json({ message: 'Error validando la especialidad', error: (e as any).message });
             }
 
             const newMedic = await medicModel.create({
@@ -23,6 +44,7 @@ class MedicController {
                 data: newMedic
             });
         } catch (error: any) {
+            console.error('[MedicController][createMedic] error:', error);
             return res.status(500).json({
                 message: 'Error al crear el médico',
                 error: error.message
