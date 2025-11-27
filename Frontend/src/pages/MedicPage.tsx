@@ -24,7 +24,7 @@ function MedicPage() {
         setLoading(true);
         try {
             const response = await medicService.getAll();
-            setMedics(Array.isArray(response.data) ? response.data : []);
+            setMedics(Array.isArray(response.data.data) ? response.data.data : []);
         } catch (err) {
             console.error(err);
             setMedics([]);
@@ -44,18 +44,18 @@ function MedicPage() {
 
         setLoading(true);
         try {
-            const result = await medicService.getBySpecialtyName(value);
+            const result = await medicService.getBySpecialty(parseInt(value));
 
-            // getBySpecialtyName puede devolver null, objeto o array
-            if (!result) {
+            // getBySpecialty retorna { message, data: [...] }
+            if (!result.data.data) {
                 setMedics([]);
-            } else if (Array.isArray(result.data)) {
-                setMedics(result.data);
+            } else if (Array.isArray(result.data.data)) {
+                setMedics(result.data.data);
             } else {
-                setMedics([result.data]);
+                setMedics([result.data.data]);
             }
         } catch (err) {
-            console.error(err);
+            console.error("Error searching by specialty:", err);
             setMedics([]);
         } finally {
             setLoading(false);
@@ -124,8 +124,8 @@ function MedicPage() {
                     <Col md={6}>
                         <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
                             <Form.Control
-                                type="text"
-                                placeholder="Buscar por Especialidad"
+                                type="number"
+                                placeholder="Buscar por Especialidad ID"
                                 value={searchSpecialty}
                                 onChange={(e) => handleSearch(e.target.value)}
                             />

@@ -12,6 +12,7 @@ import NavBar from "../components/layouts/navBar";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Footer from "../components/layouts/footer";
 
 function PatientPage() {
   const [patients, setPatients] = useState<any[]>([]);
@@ -213,7 +214,7 @@ function PatientPage() {
             </Table>
           </Col>
         </Row>
-
+        <Footer />
         <Modal show={showModal} onHide={() => setShowModal(false)}>
           <Modal.Header closeButton>
             <Modal.Title>
