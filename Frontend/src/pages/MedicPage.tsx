@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { Table, Spinner, Modal, Button } from "react-bootstrap";
 import { medicService } from "../services/medicServices";
 import Form from "react-bootstrap/Form";
@@ -23,8 +24,8 @@ function MedicPage() {
     const loadAllMedics = async () => {
         setLoading(true);
         try {
-            const response = await medicService.getAll();
-            setMedics(Array.isArray(response.data.data) ? response.data.data : []);
+            const data = await medicService.getAll();
+            setMedics(Array.isArray(data) ? data : []);
         } catch (err) {
             console.error(err);
             setMedics([]);
@@ -45,14 +46,13 @@ function MedicPage() {
         setLoading(true);
         try {
             const result = await medicService.getBySpecialty(parseInt(value));
-
-            // getBySpecialty retorna { message, data: [...] }
-            if (!result.data.data) {
+            // medicService now returns data directly (array or single item)
+            if (!result) {
                 setMedics([]);
-            } else if (Array.isArray(result.data.data)) {
-                setMedics(result.data.data);
+            } else if (Array.isArray(result)) {
+                setMedics(result);
             } else {
-                setMedics([result.data.data]);
+                setMedics([result]);
             }
         } catch (err) {
             console.error("Error searching by specialty:", err);
@@ -62,9 +62,11 @@ function MedicPage() {
         }
     };
 
+    const navigate = useNavigate();
+
     const handleOpenAdd = () => {
-        setEditingMedic({});
-        setShowModal(true);
+        // Open the separate form page for creating a medic
+        navigate('/medics/new');
     };
 
     const handleOpenEdit = (medic: any) => {

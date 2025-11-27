@@ -1,11 +1,15 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { Routes, Route } from 'react-router-dom'
 import MedicPage from './pages/MedicPage'
+import MedicFormularioPage from './pages/medicFormularioPage'
 
 function App() {
-  return <MedicPage />
+  return (
+    <Routes>
+      <Route path="/" element={<MedicPage />} />
+      <Route path="/medics/new" element={<MedicFormularioPage />} />
+    </Routes>
+  )
 }
 
 export default App;
