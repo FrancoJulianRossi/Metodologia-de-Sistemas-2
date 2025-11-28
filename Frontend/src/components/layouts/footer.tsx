@@ -1,18 +1,18 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
-// Footer component displaying company information, contact details, and copyright
+// Componente Footer: muestra información de la compañía, contacto y copyright
 const Footer: React.FC = () => {
-  // Get current year for copyright text
+  // Obtener año actual para el texto de copyright
   const year = new Date().getFullYear();
 
   return (
-    // Footer section with light background and top border
+    // Sección footer con fondo claro y borde superior
     <footer className="bg-light text-muted mt-5 border-top">
       <Container className="py-4">
-        {/* First row with company info and contact details */}
+        {/* Primera fila: info de la compañía y contacto */}
         <Row>
-          {/* Company name and description - 4 columns width on medium screens */}
+          {/* Nombre y descripción de la compañía - 4 columnas en pantallas md */}
           <Col md={4} className="mb-3">
             <h5 className="mb-2">DevSoft</h5>
             <p className="small mb-0">
@@ -20,7 +20,7 @@ const Footer: React.FC = () => {
             </p>
           </Col>
 
-          {/* Contact information - 4 columns width on medium screens */}
+          {/* Información de contacto - 4 columnas en pantallas md */}
           <Col md={4} className="mb-3">
             <h6 className="mb-2">Contacto</h6>
             <ul className="list-unstyled small mb-0">
@@ -31,7 +31,7 @@ const Footer: React.FC = () => {
           </Col>
         </Row>
 
-        {/* Second row with centered copyright notice */}
+        {/* Segunda fila: aviso de copyright centrado */}
         <Row className="pt-3">
           <Col className="text-center small">
             &copy; {year} Devsoft. Todos los derechos reservados.

@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("./../config/db.js");
 
+// Definición de la entidad Speciality para Sequelize
 const Speciality = sequelize.define(
     "Speciality",
     {

@@ -1,4 +1,4 @@
-// Export all observer pattern related modules
+// Exportar módulos relacionados con el patrón Observer
 export { Observer } from "./observer.interface";
 export { AppointmentSubject, appointmentSubject } from "./appointment.subject";
 export { PatientObserver } from "./patient.observer";

@@ -3,7 +3,7 @@
  * Servicio centralizado para manejar notificaciones
  * Puede ser extendido para usar email, SMS, push notifications, etc.
  */
-
+ 
 interface Notification {
     userId: number;
     userType: 'patient' | 'medic';

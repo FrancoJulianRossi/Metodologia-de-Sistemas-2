@@ -1,5 +1,5 @@
-// Observer interface for implementing the Observer design pattern
+// Interfaz Observer para implementar el patrón Observer
 export interface Observer {
-    // Method called when appointment data is updated
+    // Método llamado cuando los datos de la cita se actualizan
     update(appointmentData: any): Promise<void>;
 }

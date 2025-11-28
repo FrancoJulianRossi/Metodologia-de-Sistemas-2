@@ -2,26 +2,26 @@ import React from 'react';
 import { Navbar, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
-// Navigation bar component that provides links to main application pages
+// Barra de navegación: enlaces hacia las páginas principales de la aplicación
 const NavBar: React.FC = () => {
-  // Hook to navigate between routes
+  // Hook para navegar entre rutas
   const navigate = useNavigate();
 
   return (
-    // Bootstrap navbar with light background that expands on medium screens
+    // Navbar de Bootstrap con fondo claro y margen inferior
     <Navbar bg="light" expand="md" className="mb-3">
       <Container>
-        {/* Navbar brand - clinic name that navigates to home on click */}
+        {/* Brand de la navbar - nombre de la clínica; click navega a la raíz */}
         <Navbar.Brand style={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
           Clinica
         </Navbar.Brand>
-        {/* Toggle button for mobile navigation */}
+        {/* Botón toggle para navegación en móviles */}
         <Navbar.Toggle aria-controls="main-navbar" />
-        {/* Collapsible navbar content */}
+        {/* Contenido colapsable */}
         <Navbar.Collapse id="main-navbar">
-          {/* Navigation buttons aligned to the right */}
+          {/* Botones de navegación alineados a la derecha */}
           <div className="ms-auto d-flex gap-2">
-            {/* Button to navigate to medics page */}
+            {/* Navegar a página de médicos */}
             <button
               type="button"
               className="btn btn-primary"
@@ -29,7 +29,7 @@ const NavBar: React.FC = () => {
             >
               Medics
             </button>
-            {/* Button to navigate to appointments page */}
+            {/* Navegar a página de citas */}
             <button
               type="button"
               className="btn btn-success"
@@ -37,7 +37,7 @@ const NavBar: React.FC = () => {
             >
               Appointments
             </button>
-            {/* Button to navigate to patients page */}
+            {/* Navegar a página de pacientes */}
             <button
               type="button"
               className="btn btn-secondary"

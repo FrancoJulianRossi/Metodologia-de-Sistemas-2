@@ -1,9 +1,9 @@
-// Import the speciality model for database operations
+// Importar el modelo speciality para operaciones de BD
 const specialityModel = require("../models/sqlite/speciality.model");
 
-// Controller class to handle speciality-related API requests
+// Controlador para manejar las rutas relacionadas con especialidades
 class speacialityController {
-  // Retrieves all specialities from the database
+  // Obtiene todas las especialidades desde la BD
   async getAllSpecialities(req: any, res: any) {
     try {
       const specialities = await specialityModel.getSpecialities();
@@ -19,7 +19,7 @@ class speacialityController {
     }
   }
 
-  // Retrieves a specific speciality by ID
+  // Obtiene una especialidad por su ID
   async getSpecialityById(req: any, res: any) {
     try {
       const id = parseInt(req.params.id);
@@ -36,7 +36,7 @@ class speacialityController {
     }
   }
 
-  // Creates a new speciality in the database
+  // Crea una nueva especialidad en la BD
   async createSpeciality(req: any, res: any) {
     try {
       const specialityData = req.body;
@@ -51,7 +51,7 @@ class speacialityController {
     }
   }
 
-  // Updates an existing speciality with new data
+  // Actualiza una especialidad existente
   async updateSpeciality(req: any, res: any) {
     try {
       const id = parseInt(req.params.id);
@@ -70,7 +70,7 @@ class speacialityController {
     }
   }
 
-  // Deletes a speciality from the database by ID
+  // Elimina una especialidad por ID
   async deleteSpeciality(req: any, res: any) {
     try {
       const id = parseInt(req.params.id);

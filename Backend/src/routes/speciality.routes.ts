@@ -1,24 +1,24 @@
 import express from "express";
 
-// Import the speciality controller for handling requests
+// Importar el controlador de specialities para manejar las peticiones
 const specialityController = require("../controllers/speciality.controller");
 
-// Create Express router instance
+// Crear router de Express
 const router = express.Router();
 
-// GET - Retrieve all specialities
+// GET - Obtener todas las especialidades
 router.get("/", specialityController.getAllSpecialities);
 
-// GET - Retrieve a specific speciality by ID
+// GET - Obtener una especialidad por ID
 router.get("/:id", specialityController.getSpecialityById);
 
-// POST - Create a new speciality
+// POST - Crear una nueva especialidad
 router.post("/", specialityController.createSpeciality);
 
-// PUT - Update an existing speciality by ID
+// PUT - Actualizar una especialidad por ID
 router.put("/:id", specialityController.updateSpeciality);
 
-// DELETE - Delete a speciality by ID
+// DELETE - Eliminar una especialidad por ID
 router.delete("/:id", specialityController.deleteSpeciality);
 
 module.exports = router;

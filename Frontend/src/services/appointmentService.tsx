@@ -1,19 +1,20 @@
 const API_URL = 'http://localhost:3000/appointments';
 
+// Servicio de citas: funciones para consumir la API de appointments
 
-// Fetches all appointments from the server
+// Obtiene todas las citas desde el servidor
 export const getAllAppointments = async () => {
   const response = await fetch(API_URL);
   return response.json();
 }
 
-// Fetches a specific appointment by its ID
+// Obtiene una cita específica por ID
 export const getAppointmentById = async (id: string) => {
   const response = await fetch(`${API_URL}/${id}`);
   return response.json();
 }
 
-// Creates a new appointment by sending POST request with appointment data
+// Crea una nueva cita enviando POST con los datos de la cita
 export const createAppointment = async (appointmentData: any) => {
     const response = await fetch(API_URL, {
     method: 'POST',
@@ -25,7 +26,7 @@ export const createAppointment = async (appointmentData: any) => {
   return response.json();
 }
 
-// Updates an existing appointment with new data
+// Actualiza una cita existente con nuevos datos
 export const updateAppointment = async (id: string, appointmentData: any) => {
   const response = await fetch(`${API_URL}/${id}`, {
     method: 'PUT',
@@ -37,7 +38,7 @@ export const updateAppointment = async (id: string, appointmentData: any) => {
   return response.json();
 }
 
-// Deletes an appointment by ID
+// Elimina una cita por ID
 export const deleteAppointment = async (id: string) => {
   const response = await fetch(`${API_URL}/${id}`, {
     method: 'DELETE',
