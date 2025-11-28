@@ -1,3 +1,9 @@
+/**
+ * Controlador de pacientes.
+ *
+ * Expone operaciones CRUD sobre pacientes y contiene comprobaciones
+ * adicionales (p.ej. validar que no existan turnos relacionados al eliminar).
+ */
 const patientModel = require("../models/sqlite/patient.model.js");
 const {
   Appointment,
@@ -5,6 +11,9 @@ const {
 
 class PatientController {
   // CRUD OPERATIONS FOR PATIENT
+  /**
+   * Crea un nuevo paciente. Valida campos requeridos.
+   */
   async create(req: any, res: any) {
     try {
       const { dni, name, lastname, email, password, phoneNumber } = req.body;
@@ -51,6 +60,9 @@ class PatientController {
     }
   }
 
+  /**
+   * Obtiene un paciente por ID. Valida parámetro y delega al modelo.
+   */
   async getById(req: any, res: any) {
     try {
       const { id } = req.params;
@@ -73,6 +85,9 @@ class PatientController {
     }
   }
 
+  /**
+   * Actualiza un paciente por ID. Requiere datos en el cuerpo.
+   */
   async update(req: any, res: any) {
     try {
       const { id } = req.params;
@@ -105,6 +120,10 @@ class PatientController {
     }
   }
 
+  /**
+   * Elimina un paciente si no tiene turnos relacionados.
+   * Si existen turnos, devuelve un error amigable.
+   */
   async delete(req: any, res: any) {
     try {
       const { id } = req.params;
@@ -156,6 +175,9 @@ class PatientController {
     }
   }
 
+  /**
+   * Busca un paciente por DNI (parámetro `dni`).
+   */
   async getByDni(req: any, res: any) {
     try {
       const { dni } = req.params;

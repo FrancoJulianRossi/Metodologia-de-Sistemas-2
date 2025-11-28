@@ -1,3 +1,9 @@
+/**
+ * Página principal de gestión de turnos (appointments).
+ *
+ * Permite listar, filtrar por paciente/médico, crear, editar y borrar turnos.
+ * Abre el formulario en un modal para crear/editar.
+ */
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Table, Spinner, Modal, Button } from "react-bootstrap";
@@ -29,6 +35,7 @@ function AppointmentPage() {
         load();
     }, []);
 
+    // Carga inicial de turnos desde el backend
     async function load() {
         setLoading(true);
         try {
@@ -44,6 +51,7 @@ function AppointmentPage() {
         }
     }
 
+    // Filtrar turnos por paciente o médico según el ID ingresado
     const handleFilter = async () => {
         if (!filterId.trim()) {
             setAppointments(allAppointments);

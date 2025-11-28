@@ -1,4 +1,9 @@
-import React from 'react'
+/**
+ * Componente App: raíz de la aplicación React.
+ * Define todas las rutas usando React Router (Routes).
+ * El BrowserRouter está en main.tsx para envolver toda la app.
+ */
+import React from 'react';
 import './App.css'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import MedicPage from './pages/MedicPage'

@@ -1,3 +1,9 @@
+// Entidad Sequelize: Patient (Pacientes)
+// Representa a los pacientes en la base de datos.
+// Campos principales:
+// - id: PK autoincremental
+// - dni: documento único
+// - name, lastname, email, password, phoneNumber
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("./../config/db.js");
 

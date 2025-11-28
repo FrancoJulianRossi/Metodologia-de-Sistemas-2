@@ -1,7 +1,10 @@
 // Importar el modelo de entidad Speciality
 const { Speciality } = require("./entities/speciality.entity.js");
 
-// Modelo para operaciones sobre la tabla Speciality
+/**
+ * Modelo de datos para `Speciality` (especialidades).
+ * Provee métodos para CRUD y búsquedas por nombre o ID.
+ */
 class SpecialityModel {
   // Obtiene todas las especialidades desde la BD
   async getSpecialities() {

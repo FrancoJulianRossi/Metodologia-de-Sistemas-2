@@ -1,3 +1,7 @@
+/**
+ * Servicio para consumir la API de turnos (appointments).
+ * Expone funciones para CRUD: crear, listar, obtener, actualizar, eliminar.
+ */
 const API_URL = 'http://localhost:3000/appointments';
 
 // Servicio de citas: funciones para consumir la API de appointments

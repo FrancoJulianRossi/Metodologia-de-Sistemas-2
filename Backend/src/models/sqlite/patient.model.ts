@@ -1,8 +1,15 @@
+/**
+ * Modelo de datos para `Patient` (pacientes).
+ *
+ * Encapsula CRUD y búsquedas específicas (p.ej. por DNI). Los métodos
+ * devuelven objetos Sequelize o lanzan errores descriptivos.
+ */
 const { Patient } = require("../sqlite/entities/patient.entity.js");
 
 class PatientModel {
   // CRUD OPERATIONS
 
+  // Crea un nuevo paciente
   async create(patientData: any) {
     try {
       const newPatient = await Patient.create(patientData);
@@ -12,6 +19,7 @@ class PatientModel {
     }
   }
 
+  // Obtiene todos los pacientes
   async getAll() {
     try {
       const patients = await Patient.findAll();
@@ -22,9 +30,11 @@ class PatientModel {
   }
 
   getPatientsModel() {
+    // Alias usado por algunas partes del código
     return this.getAll();
   }
 
+  // Obtiene paciente por ID
   async getById(id: number) {
     try {
       const patient = await Patient.findByPk(id);
@@ -38,9 +48,11 @@ class PatientModel {
   }
 
   getPatientByIdModel(id: number) {
+    // Alias: devuelve lo mismo que getById
     return this.getById(id);
   }
 
+  // Actualiza paciente por ID
   async update(id: number, patientData: any) {
     try {
       const patient = await Patient.findByPk(id);
@@ -54,6 +66,7 @@ class PatientModel {
     }
   }
 
+  // Elimina paciente por ID
   async delete(id: number) {
     try {
       const patient = await Patient.findByPk(id);
@@ -67,6 +80,7 @@ class PatientModel {
     }
   }
 
+  // Busca paciente por DNI
   async getByDni(dni: string) {
     try {
       const patient = await Patient.findOne({ where: { dni: dni } });

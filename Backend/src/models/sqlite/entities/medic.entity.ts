@@ -1,3 +1,9 @@
+// Entidad Sequelize: Medic (Médicos)
+// Representa a los profesionales médicos en la base de datos.
+// Campos principales:
+// - id: PK autoincremental
+// - name, lastname, email: datos personales (email único)
+// - id_specialty: FK hacia Speciality.id
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("./../config/db.js");
 

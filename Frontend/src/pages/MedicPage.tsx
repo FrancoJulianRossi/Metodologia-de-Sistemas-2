@@ -1,3 +1,9 @@
+/**
+ * Página de gestión de médicos.
+ *
+ * Muestra la lista de médicos, permite búsqueda por especialidad,
+ * edición en modal, creación (navegando al formulario) y eliminación.
+ */
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Table, Spinner, Modal, Button } from "react-bootstrap";
@@ -22,6 +28,7 @@ function MedicPage() {
         loadAllMedics();
     }, []);
 
+    // Carga todos los médicos desde el backend y actualiza el estado
     const loadAllMedics = async () => {
         setLoading(true);
         try {
@@ -35,6 +42,7 @@ function MedicPage() {
         }
     };
 
+    // Maneja búsqueda por ID de especialidad
     const handleSearch = async (value: string) => {
         setSearchSpecialty(value);
 
@@ -65,17 +73,18 @@ function MedicPage() {
 
     const navigate = useNavigate();
 
+    // Navega al formulario de creación de médico
     const handleOpenAdd = () => {
-        // Open the separate form page for creating a medic
         navigate('/medics/new');
     };
 
+    // Abre el modal para editar un médico (copia los datos para no mutar la lista)
     const handleOpenEdit = (medic: any) => {
-        // clone to avoid mutating list directly
         setEditingMedic({ ...medic });
         setShowModal(true);
     };
 
+    // Intenta eliminar un médico y muestra mensajes amigables en caso de error
     const handleDelete = async (id: any) => {
         if (!confirm("¿Eliminar médico?")) return;
         try {
@@ -83,12 +92,12 @@ function MedicPage() {
             await loadAllMedics();
         } catch (err: any) {
             console.error(err);
-            // Mostrar mensaje específico si tiene turnos asignados
             const errorMessage = err?.response?.data?.message || "Error eliminando médico";
             alert(errorMessage);
         }
     };
 
+    // Guarda cambios del médico (edición o creación desde modal)
     const handleSave = async () => {
         if (!editingMedic) return;
         setSaving(true);

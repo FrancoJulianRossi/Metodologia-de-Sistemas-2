@@ -1,3 +1,7 @@
+/**
+ * Servicio para consumir la API de pacientes.
+ * Provee funciones para CRUD de pacientes con manejo de errores y normalización de respuestas.
+ */
 import axios from "axios";
 
 const API_URL = "http://localhost:3000/api/patients/";

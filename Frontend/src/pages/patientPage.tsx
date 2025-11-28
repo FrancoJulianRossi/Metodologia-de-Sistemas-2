@@ -1,3 +1,9 @@
+/**
+ * Página de gestión de pacientes.
+ *
+ * Muestra lista de pacientes, permite búsqueda por DNI, edición en modal,
+ * creación de nuevos pacientes y eliminación con validación de turnos asignados.
+ */
 import { useEffect, useState } from "react";
 import { Table, Spinner, Modal, Button } from "react-bootstrap";
 import {

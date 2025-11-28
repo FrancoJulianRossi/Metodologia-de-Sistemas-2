@@ -1,3 +1,15 @@
+/**
+ * Formulario para crear/editar un turno.
+ *
+ * Carga pacientes y médicos para mostrar selectores, normaliza diferentes
+ * formatos de respuesta y realiza validaciones básicas antes de enviar.
+ */
+/**
+ * Formulario para crear/editar turnos (appointments).
+ *
+ * Carga pacientes y médicos, valida selecciones y envía datos al backend.
+ * Puede funcionar como componente reutilizable (en modal) o página standalone.
+ */
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getAllPatients } from "../services/patientService";

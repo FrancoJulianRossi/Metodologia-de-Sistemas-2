@@ -1,7 +1,11 @@
 // Importar el modelo speciality para operaciones de BD
 const specialityModel = require("../models/sqlite/speciality.model");
 
-// Controlador para manejar las rutas relacionadas con especialidades
+/**
+ * Controlador de especialidades.
+ *
+ * Maneja las operaciones CRUD sobre la entidad Speciality.
+ */
 class speacialityController {
   // Obtiene todas las especialidades desde la BD
   async getAllSpecialities(req: any, res: any) {

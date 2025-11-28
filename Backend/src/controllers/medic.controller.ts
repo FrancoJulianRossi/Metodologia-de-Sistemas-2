@@ -1,7 +1,23 @@
 const medicModel = require('../models/sqlite/medic.model');
 const { Speciality } = require('../models/sqlite/entities/speciality.entity.js');
 
+/**
+ * Controlador para manejar las operaciones HTTP relacionadas con médicos.
+ *
+ * Aquí agrupamos las acciones principales:
+ * - createMedic: crear un nuevo médico
+ * - getAllMedics: obtener la lista completa de médicos
+ * - getMedicById: obtener un médico por su ID
+ * - updateMedic: actualizar datos de un médico
+ * - deleteMedic: eliminar un médico (con manejo especial de FK)
+ * - getMedicByEmail: buscar médico por correo
+ * - getMedicsBySpecialty: listar médicos por especialidad
+ */
 class MedicController {
+    /**
+     * Crea un nuevo médico.
+     * Valida campos requeridos, evita duplicados por email y verifica existencia de la especialidad.
+     */
     async createMedic(req: any, res: any) {
         try {
             const { name, lastname, email, id_specialty } = req.body;
@@ -52,6 +68,9 @@ class MedicController {
         }
     }
 
+    /**
+     * Devuelve todos los médicos.
+     */
     async getAllMedics(req: any, res: any) {
         try {
             const medics = await medicModel.getAll();
@@ -68,6 +87,10 @@ class MedicController {
         }
     }
 
+    /**
+     * Obtiene un médico por su ID.
+     * Valida que el ID esté presente y delega al modelo.
+     */
     async getMedicById(req: any, res: any) {
         try {
             const { id } = req.params;
@@ -98,6 +121,10 @@ class MedicController {
         }
     }
 
+    /**
+     * Actualiza un médico por ID.
+     * Requiere que se proporcione al menos un campo a actualizar.
+     */
     async updateMedic(req: any, res: any) {
         try {
             const { id } = req.params;
@@ -141,6 +168,11 @@ class MedicController {
         }
     }
 
+    /**
+     * Elimina un médico por ID.
+     * Implementa detección específica de violaciones de clave foránea (FK)
+     * para devolver un mensaje claro cuando el médico tiene turnos asignados.
+     */
     async deleteMedic(req: any, res: any) {
         try {
             const { id } = req.params;
@@ -178,6 +210,9 @@ class MedicController {
         }
     }
 
+    /**
+     * Busca un médico por correo electrónico (query param `email`).
+     */
     async getMedicByEmail(req: any, res: any) {
         try {
             const { email } = req.query;
@@ -208,6 +243,9 @@ class MedicController {
         }
     }
 
+    /**
+     * Obtiene los médicos relacionados a una especialidad (por `specialtyId` en params).
+     */
     async getMedicsBySpecialty(req: any, res: any) {
         try {
             const { specialtyId } = req.params;

@@ -1,3 +1,9 @@
+// Entidad Sequelize: Appointment (Turnos)
+// Representa los turnos agendados entre pacientes y médicos.
+// Campos principales:
+// - id: PK autoincremental
+// - date, time, status: información del turno
+// - id_patient, id_medic: FKs hacia Patient.id y Medic.id
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("./../config/db.js");
 

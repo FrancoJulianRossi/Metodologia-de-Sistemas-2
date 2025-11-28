@@ -1,3 +1,9 @@
+/**
+ * Página de formulario para crear un médico.
+ *
+ * Valida campos localmente y envía la solicitud al backend para crear
+ * un nuevo médico. Muestra mensajes de éxito o error al usuario.
+ */
 import React, { useState } from "react";
 import { Container, Form, Button, Alert } from "react-bootstrap";
 import NavBar from "../components/layouts/navBar";
@@ -15,10 +21,12 @@ function MedicFormularioPage() {
 
     const navigate = useNavigate();
 
+    // Validación simple del formato de email
     const validateEmail = (value: string) => {
         return /\S+@\S+\.\S+/.test(value);
     };
 
+    // Envía el formulario al backend para crear el médico
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);

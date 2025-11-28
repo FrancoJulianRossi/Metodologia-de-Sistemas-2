@@ -1,3 +1,8 @@
+/**
+ * Observador para notificar a los médicos cuando hay cambios en sus turnos.
+ * Recibe información del appointment y utiliza el NotificationService para
+ * enviar una notificación al médico correspondiente.
+ */
 import { Observer } from './observer.interface';
 import { NotificationService } from '../services/notification.service';
 

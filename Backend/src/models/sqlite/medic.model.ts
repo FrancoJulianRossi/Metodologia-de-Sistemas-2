@@ -1,6 +1,14 @@
+/**
+ * Modelo de datos para `Medic` (médicos).
+ *
+ * Contiene las operaciones de acceso a datos (CRUD) usando las entidades
+ * definidas por Sequelize. Los métodos lanzan errores con mensajes en
+ * español para facilitar el consumo por los controladores.
+ */
 const { Medic } = require('../sqlite/entities/medic.entity.js');
 
 class MedicModel {
+    // Crea un nuevo registro de médico en la base de datos
     async create(medicData: any) {
         try {
             const newMedic = await Medic.create(medicData);
@@ -10,6 +18,7 @@ class MedicModel {
         }
     }
 
+    // Obtiene todos los médicos
     async getAll() {
         try {
             const medics = await Medic.findAll();
@@ -19,6 +28,7 @@ class MedicModel {
         }
     }
 
+    // Obtiene un médico por su ID (lanza si no existe)
     async getById(id: number) {
         try {
             const medic = await Medic.findByPk(id);
@@ -31,6 +41,7 @@ class MedicModel {
         }
     }
 
+    // Actualiza un médico por ID con los datos proporcionados
     async update(id: number, medicData: any) {
         try {
             const medic = await Medic.findByPk(id);
@@ -45,6 +56,7 @@ class MedicModel {
         }
     }
 
+    // Elimina un médico por ID (lanza si no existe o hay error de FK)
     async delete(id: number) {
         try {
             const medic = await Medic.findByPk(id);
@@ -59,6 +71,7 @@ class MedicModel {
         }
     }
 
+    // Busca un médico por su correo electrónico
     async getByEmail(email: string) {
         try {
             const medic = await Medic.findOne({
@@ -70,6 +83,7 @@ class MedicModel {
         }
     }
 
+    // Lista médicos por ID de especialidad
     async getBySpecialty(specialtyId: number) {
         try {
             const medics = await Medic.findAll({

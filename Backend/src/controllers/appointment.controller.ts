@@ -1,3 +1,10 @@
+/**
+ * Controlador de appointments (turnos).
+ *
+ * Este archivo expone las rutas CRUD para los turnos y encapsula la lógica
+ * de validación de entradas y notificación a los observadores cuando ocurre
+ * un cambio relevante (creación, actualización, cancelación).
+ */
 const appointmentModel = require("../models/sqlite/appointment.model");
 import { appointmentSubject } from "../observer/appointment.subject";
 import { PatientObserver } from "../observer/patient.observer";

@@ -2,7 +2,8 @@ import axios from "axios";
 
 const API_URL = "http://localhost:3000/medics";
 
-// Wrapper para mantener la consistencia con patientService (devuelve response.data.data cuando existe)
+// Servicio que abstrae las llamadas HTTP relacionadas con médicos.
+// Devuelve `res.data.data` cuando el backend lo proporciona, o `res.data`.
 export const medicService = {
     getAll: async () => {
         const res = await axios.get(API_URL);

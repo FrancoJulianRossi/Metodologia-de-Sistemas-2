@@ -1,3 +1,7 @@
+/**
+ * Página de formulario para pacientes (en construcción).
+ * Actualmente solo carga la lista de pacientes.
+ */
 import patientService from "../services/patientService";
 import { useState, useEffect } from "react";
 

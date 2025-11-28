@@ -1,6 +1,13 @@
+/**
+ * Modelo de datos para `Appointment` (turnos).
+ *
+ * Provee operaciones CRUD sencillas sobre la entidad Appointment y
+ * lanza errores descriptivos cuando ocurre algún fallo.
+ */
 const { Appointment } = require("../sqlite/entities/appointment.entity");
 
 class AppointmentModel {
+  // Crea un nuevo turno
   async create(appointmentData: any) {
     try {
       const newAppointment = await Appointment.create(appointmentData);
@@ -10,6 +17,7 @@ class AppointmentModel {
     }
   }
 
+  // Obtiene todos los turnos
   async getAll() {
     try {
       const appointments = await Appointment.findAll();
@@ -18,6 +26,7 @@ class AppointmentModel {
       throw new Error("Error fetching appointments: " + error.message);
     }
   }
+  // Obtiene un turno por ID (lanza si no existe)
   async getById(id: number) {
     try {
       const appointment = await Appointment.findByPk(id);
@@ -30,6 +39,7 @@ class AppointmentModel {
     }
   }
 
+  // Actualiza un turno por ID
   async update(id: number, appointmentData: any) {
     try {
       const appointment = await Appointment.findByPk(id);
@@ -43,6 +53,7 @@ class AppointmentModel {
     }
   }
 
+  // Elimina un turno por ID
   async delete(id: number) {
     try {
       const appointment = await Appointment.findByPk(id);

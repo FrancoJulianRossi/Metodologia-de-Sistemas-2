@@ -1,32 +1,26 @@
 import express from "express";
 const patientController = require("../controllers/patient.controller.js");
 
+// Rutas CRUD para pacientes
+// Montadas en /api/patients desde app.ts
 const router = express.Router();
 
-// CRUD Routes for Patient
-
-// Create a new patient
-// POST /api/patients
+// POST /api/patients - crear paciente
 router.post("/", patientController.create);
 
-// Get all patients
-// GET /api/patients
+// GET /api/patients - listar pacientes
 router.get("/", patientController.getAll);
 
-// Get patient by ID
-// GET /api/patients/:id
+// GET /api/patients/:id - obtener paciente por ID
 router.get("/:id", patientController.getById);
 
-// Get patient by DNI
-// GET /api/patients/dni/:dni
+// GET /api/patients/dni/:dni - obtener paciente por DNI
 router.get("/dni/:dni", patientController.getByDni);
 
-// Update patient
-// PUT /api/patients/:id
+// PUT /api/patients/:id - actualizar paciente
 router.put("/:id", patientController.update);
 
-// Delete patient
-// DELETE /api/patients/:id
+// DELETE /api/patients/:id - eliminar paciente
 router.delete("/:id", patientController.delete);
 
 module.exports = router;
