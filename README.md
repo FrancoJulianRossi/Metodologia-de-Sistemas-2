@@ -1,48 +1,76 @@
-# Metodologia-de-Sistemas-2
-## Participantes:
+# Aplicación de gestión de turnos
 
-    Franco Julian Rossi
+## Participantes
+- Franco Julian Rossi  
+- Martin Andres Garnica  
+- Manuel Galdames  
+- Santiago Recari
 
-    Martin Andres Garnica
+## Descripción
+Aplicación para la gestión de turnos en clínicas/consultorios. Permite crear, modificar, cancelar y notificar cambios en turnos para pacientes y médicos. Incluye una API backend (Node.js + TypeScript) y un frontend (Vite + React + TypeScript).
 
-    Manuel Galdames
+## Funcionalidades principales
+- Registro y gestión de pacientes y médicos.
+- Gestión de especialidades.
+- CRUD de turnos (reservar, confirmar, cancelar, completar).
+- Notificaciones automáticas a paciente y médico cuando cambia el estado de un turno.
+- Seed de datos para pruebas.
 
-    Santiago Recari
+## Arquitectura / Estructura del proyecto
+- Backend/
+  - src/
+    - controllers/ — lógica de endpoints
+    - models/sqlite/ — entidades y modelos (usa SQLite para desarrollo)
+    - observer/ — implementación del patrón Observer (subject + observers de paciente y médico)
+    - services/ — mailer y servicio de notificaciones
+    - routes/ — rutas REST: appointment, medic, patient, speciality
+    - scripts/seeds.ts — script para poblar datos de prueba
+  - .env — variables de entorno
+  - jest.config.js — configuración de tests
+- Frontend/
+  - src/
+    - pages/ — vistas (patientPage, patientFormularioPage)
+    - services/ — consumo de API desde el cliente
+    - components/ — componentes reutilizables
+  - vite.config.ts — configuración de Vite
 
-## Tema:
+## Tecnologías
+- Backend: Node.js, TypeScript
+- Base de datos (desarrollo): SQLite (archivos en src/models/sqlite/config/)
+- Frontend: React + TypeScript, Vite
+- Tests: Jest (backend)
+- Patrones de diseño: Singleton (config/DB), Observer (notificaciones de turnos)
 
-**Aplicacion de gestion de turnos.**
+## Diseño y patrones
+- Singleton: conexión/configuración de la base de datos para evitar múltiples instancias.
+- Observer: cuando un turno cambia de estado, se notifica a los observers (paciente, médico). La clase Turno dispara eventos sin saber cómo se gestionan las notificaciones.
 
-Este proyecto consiste en una aplicación de gestión de turnos para clínicas o consultorios médicos.
-El objetivo es facilitar la reserva, modificación y seguimiento de turnos para pacientes y médicos, incorporando notificaciones automáticas y utilizando patrones de diseño para mejorar la organización y escalabilidad del sistema.
+## Endpoints principales (resumen)
+- /api/patients — gestión de pacientes
+- /medics — gestión de médicos
+- /specialities — gestión de especialidades
+- /appointments — gestión de turnos
 
-## Patrones:
+(Ver carpetas `routes/` y `controllers/` para la lista completa y métodos disponibles.)
 
- **Patrón Creacional: Singleton**
+## Cómo ejecutar (Windows)
+1. Backend
+   - Abrir terminal en `Backend`:
+     - npm install
+     - Copiar `.env` ejemplo y ajustar variables (si aplica)
+     - npm run dev     (o `npm start` según scripts)
+     - npm test        (ejecuta los tests con Jest)
+     - npm run seed    (si existe, ejecuta el script de seeds para poblar la BD)
+2. Frontend
+   - Abrir terminal en `Frontend`:
+     - npm install
+     - npm run dev     (inicia Vite en modo desarrollo)
+     - npm run build   (si se requiere generar build de producción)
 
+Nota: si la configuración usa TypeScript en runtime, puede ser necesario compilar `tsc` o usar `ts-node` según la configuración del package.json.
 
-La conexión a la base de datos debe ser única para evitar múltiples conexiones innecesarias.
-
-La configuración global (por ejemplo, datos de la clínica, horarios de atención, parámetros de email/SMS para notificaciones) debe manejarse desde un único lugar.
-
-Evita inconsistencias: todos los módulos acceden al mismo objeto.
-
- **Patrón de Comportamiento: Observer**
-
-Cada vez que un turno cambia de estado (reservado, confirmado, cancelado, completado), distintos interesados necesitan ser notificados:
-
-El paciente.
-
-El médico.
-
-Evita tener lógica rígida y acoplada. No hace falta que la clase Turno sepa cómo notificar a cada actor, solo dispara el evento.
-
-## Diagrama entidad relacion
-
+## Diagrama ER
 ![DiagramaER](docs/DiagramaER.png)
 
-## Tecnologías propuestas
-
-- Base de datos: MySQL / PostgreSQL
-- Backend: Node.js
-- Patrones de diseño: Singleton, Observer
+## Licencia
+Proyecto académico.
