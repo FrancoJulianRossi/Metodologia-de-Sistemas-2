@@ -164,7 +164,13 @@ class MedicController {
                     message: 'Médico no encontrado'
                 });
             }
-
+            // Detectar violación de clave foránea (FK constraint)
+            if (error.name === 'SequelizeForeignKeyConstraintError' ||
+                (error.message && error.message.includes('FOREIGN KEY constraint failed'))) {
+                return res.status(409).json({
+                    message: 'No se puede eliminar el médico porque tiene turnos asignados'
+                });
+            }
             return res.status(500).json({
                 message: 'Error al eliminar el médico',
                 error: error.message

@@ -81,9 +81,11 @@ function MedicPage() {
         try {
             await medicService.delete(id);
             await loadAllMedics();
-        } catch (err) {
+        } catch (err: any) {
             console.error(err);
-            alert("Error eliminando médico");
+            // Mostrar mensaje específico si tiene turnos asignados
+            const errorMessage = err?.response?.data?.message || "Error eliminando médico";
+            alert(errorMessage);
         }
     };
 
