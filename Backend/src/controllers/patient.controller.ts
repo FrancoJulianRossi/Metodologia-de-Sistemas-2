@@ -1,4 +1,7 @@
 const patientModel = require("../models/sqlite/patient.model.js");
+const {
+  Appointment,
+} = require("../models/sqlite/entities/appointment.entity.js");
 
 class PatientController {
   // CRUD OPERATIONS FOR PATIENT
@@ -112,14 +115,43 @@ class PatientController {
         });
       }
 
+      // Comprobar si existen appointments que referencien al paciente
+      try {
+        const related = await Appointment.findOne({
+          where: { id_patient: parseInt(id) },
+        });
+        if (related) {
+          return res.status(400).json({
+            error:
+              "No se puede eliminar el paciente porque tiene un turno asignado",
+          });
+        }
+      } catch (err: any) {
+        // si hay un error accediendo a Appointment, seguir adelante y dejar que el intento de borrado original falle con 500
+        console.error("Error comprobando appointments relacionados:", err);
+      }
+
       const result = await patientModel.delete(parseInt(id));
       return res.status(200).json({
         message: "Patient deleted successfully",
         data: result,
       });
     } catch (error: any) {
+      // Si el error es por constraint de FK, devolver un mensaje amigable en español
+      const msg = (error && error.message) || "Error deleting patient";
+      if (
+        typeof msg === "string" &&
+        (msg.includes("FOREIGN KEY") ||
+          msg.includes("SQLITE_CONSTRAINT") ||
+          msg.includes("constraint"))
+      ) {
+        return res.status(400).json({
+          error:
+            "No se puede eliminar el paciente porque tiene un turno asignado",
+        });
+      }
       return res.status(500).json({
-        error: error.message || "Error deleting patient",
+        error: msg || "Error deleting patient",
       });
     }
   }

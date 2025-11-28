@@ -12,7 +12,6 @@ class AppointmentModel {
 
   async getAll() {
     try {
-      console.log("hola 2");
       const appointments = await Appointment.findAll();
       return appointments;
     } catch (error: any) {

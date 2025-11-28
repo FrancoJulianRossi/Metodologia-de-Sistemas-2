@@ -87,7 +87,9 @@ function PatientPage() {
       await loadAllPatients();
     } catch (err) {
       console.error(err);
-      alert("Error eliminando paciente");
+      // Mostrar mensaje amigable que venga del backend, si existe
+      const message = (err as any)?.message ?? "Error eliminando paciente";
+      alert(message);
     }
   };
 

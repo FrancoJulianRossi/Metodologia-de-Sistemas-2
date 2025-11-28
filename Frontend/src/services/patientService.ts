@@ -72,6 +72,13 @@ export const deletePatient = async (id: string) => {
     return response.data;
   } catch (error) {
     console.error(error);
+    // Propagar mensaje amigable desde el backend si existe
+    const msg =
+      (error as any)?.response?.data?.error ??
+      (error as any)?.response?.data?.message ??
+      (error as any)?.message ??
+      "Error deleting patient";
+    throw new Error(msg);
   }
 };
 
